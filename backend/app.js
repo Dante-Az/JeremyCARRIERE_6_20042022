@@ -13,6 +13,18 @@ mongoose.connect('mongodb+srv://JeremyC:Gototheparadise6@cluster0.vky2v.mongodb.
 //Appel de la méthode express
 const app = express();
 
+// Prévention des erreurs CORS
+app.use((req, res, next) => {
+  // Pour accéder à l'API depuis n'importe quelle origine
+  res.setHeader('Access-Control-Allow-Origin', '*'); 
+  // Pour ajouter les headers aux requ^tes envoyés vers l'API
+  res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
+  // Pour envoyer des requêtes avec les méthodes suivantes
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+  next();
+});
 
+// Middleware permettant de récupérer le body des requêtes
+app.use(express.json());
 
 module.exports = app;
