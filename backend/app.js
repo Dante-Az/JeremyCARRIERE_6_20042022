@@ -3,7 +3,7 @@ const express = require('express');
 // Importation de mongoose
 const mongoose = require('mongoose');
 
-
+// Connexion à MongoDB
 mongoose.connect('mongodb+srv://JeremyC:Gototheparadise6@cluster0.vky2v.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
   { useNewUrlParser: true,
     useUnifiedTopology: true })
