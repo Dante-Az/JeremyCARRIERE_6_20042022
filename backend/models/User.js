@@ -1,7 +1,7 @@
 // Importation de mongoose
 const mongoose = require('mongoose');
 // Importation du validateur unique
-const uniqueValidator = require('mongooose-unique-validator');
+const uniqueValidator = require('mongoose-unique-validator');
 
 // Creation du schema d'utilisateur
 const userSchema = mongoose.Schema({
