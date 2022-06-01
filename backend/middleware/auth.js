@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 // Exportation du middleware d'authentification
 module.exports = (req, res, next) => {
     try {
-        // ON récupère le token dans le header authorization
+        // On récupère le token dans le header authorization
         // split retourne un tableau avec bearer en 0 et le token en 1 
         const token = req.headers.authorization.split(' ')[1];
         // On décode le token avec verify
