@@ -6,9 +6,11 @@ const router = express.Router();
 const userCtrl = require('../controllers/user');
 // Validation du mot de passe
 const password = require('../middleware/password');
+//
+const email = require('../middleware/email')
 
 // Routes pour user
-router.post('/signup', password, userCtrl.signup);
+router.post('/signup', password, email, userCtrl.signup);
 router.post('/login', userCtrl.login);
 
 // Exportation du router
