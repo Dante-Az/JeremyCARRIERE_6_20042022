@@ -54,7 +54,9 @@ exports.modifySauce = async (req, res, next) => {
       // On met l'identifiant mis dans objet requête utilsé pour le comparer avec le userId de la sauce
       if (findOne.userId !== req.auth.userId) {
         res.status(400).json({ error: new Error('Requête non autorisée !')});
+        return findOne;
       }
+      
       // On récupère le nom de fichier
       
         const filename = findOne.imageUrl.split('/images/')[1];
