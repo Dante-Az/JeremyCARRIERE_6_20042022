@@ -13,14 +13,15 @@ const multer = require('../middleware/multer-config');
 const sauceCtrl = require('../controllers/sauce');
 // Importation du controller des likes/dislikes
 const likeCtrl = require('../controllers/likes');
+const idCheck = require('../middleware/idCheck');
 
 
 // On enregistre les routes dans le router et  on applique des fonctions du controller 
 // auth applique authentification à toutes les routes (à placer en 1er)
 // multer applique l'ajout de fichier aux routes post et put
 router.post('/', auth, multer, sauceCtrl.createSauce);
-router.put('/:id', auth, multer, sauceCtrl.modifySauce);
-router.delete('/:id', auth, sauceCtrl.deleteSauce);
+router.put('/:id', auth, idCheck, multer, sauceCtrl.modifySauce);
+router.delete('/:id', auth, idCheck, sauceCtrl.deleteSauce);
 router.get('/:id', auth, sauceCtrl.getOneSauce);
 router.get('/', auth, sauceCtrl.getAllSauces);
 router.post('/:id/like', auth, likeCtrl.likeSauce);

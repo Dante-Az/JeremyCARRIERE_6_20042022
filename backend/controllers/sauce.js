@@ -42,38 +42,22 @@ exports.modifySauce = async (req, res, next) => {
   }  
 };
 
- // Pour supprimer une sauce avec DELETE seulement si sauce.userId == auteur de la requête
- exports.deleteSauce = async (req, res, next) => {
-   // Pour trouver la sauce 
-   try {
-     const findOne = await Sauce.findOne({ _id: req.params.id })
-
-      if (!findOne) {
-        res.status(404).json({ error: new Error("Cette sauce n'existe pas !")});
-      }
-      // On met l'identifiant mis dans objet requête utilsé pour le comparer avec le userId de la sauce
-      if (findOne.userId !== req.auth.userId) {
-        res.status(400).json({ error: new Error('Requête non autorisée !')});
-        return findOne;
-      }
-      
-      // On récupère le nom de fichier
-      
-        const filename = findOne.imageUrl.split('/images/')[1];
-      // On supprime le fichier puis  on effectue le callback qui le supprime de la BDD
-      fs.unlink(`images/${filename}` ,async () => {
-        try {
-        const delSauce = await Sauce.deleteOne({ _id: req.params.id });
-         res.status(200).json(delSauce)
-      }
-      catch (error) {
-        res.status(404).json({error: error}); 
-      }
-      });    
-   } catch (error) {
-    res.status(500).json({error: error}); 
-  }   
- };
+// Pour supprimer une sauce avec DELETE
+exports.deleteSauce = (req, res, next) => {
+  // Pour trouver la sauce
+  Sauce.findOne({ _id: req.params.id })
+      .then(sauce => {
+        // On récupère le nom de fichie
+          const filename = sauce.imageUrl.split('/images/')[1];
+          // On supprime le fichier puis  on effectue le callback qui le supprime de la BDD
+          fs.unlink(`images/${filename}`, () => {
+              Sauce.deleteOne({ _id: req.params.id })
+                  .then(() => res.status(200).json({ message: 'Sauce supprimée'}))
+                  .catch(error => res.status(400).json({ error }));
+          });
+      })
+      .catch(error => res.status(500).json({ error }));
+};
 
 // Pour récupérer une seule sauce avec la méthode findOne
 exports.getOneSauce = async (req, res) => {
